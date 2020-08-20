@@ -20,7 +20,8 @@ export default (props: ILineTowProps) => {
         shape="smooth"
         position="month*temperature"
         color="city"
-        label={['temperature', { style: { fill: 'white' } }]}
+        // label={['temperature', { style: { fill: 'white' } }]}
+        label={'temperature'}
       />
       <Point position="month*temperature" color="city" />
     </Chart>

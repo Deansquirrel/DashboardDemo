@@ -13,7 +13,7 @@ export default (props: ILine4Props) => {
       scale={{ value: { min: 0 } }}
       padding={[10, 20, 50, 40]}
       autoFit
-      height={500}
+      // height={500}
       data={list}
     >
       <Line shape="hv" position="month*value" />

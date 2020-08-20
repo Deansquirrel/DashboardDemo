@@ -22,6 +22,11 @@ export default defineConfig({
           exact: true,
           component: '@/pages/dashboard/DashboardLine',
         },
+        {
+          path: 'table',
+          exact: true,
+          component: '@/pages/dashboard/DashboardTable',
+        },
       ],
     },
     { path: '/', exact: false, redirect: '/' },

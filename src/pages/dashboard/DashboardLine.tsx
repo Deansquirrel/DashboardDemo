@@ -16,7 +16,7 @@ const RefreshData = () => {
   store.dispatch(ActionLine4Refresh());
 };
 
-class DashboardTest extends BaseWithStoreComponent {
+class DashboardLine extends BaseWithStoreComponent {
   refreshFunc: any;
 
   componentDidMount() {
@@ -40,15 +40,18 @@ class DashboardTest extends BaseWithStoreComponent {
 
     return (
       <div>
-        <Row>
+        <Row
+          gutter={[
+            { xs: 8, sm: 16, md: 24, lg: 32 },
+            { xs: 8, sm: 16, md: 24, lg: 32 },
+          ]}
+        >
           <Col span={12} style={{ height: '50vh' }}>
             <Line2 list={listLineTwo} />
           </Col>
           <Col span={12}>
             <Line1 list={listLineOne} />
           </Col>
-        </Row>
-        <Row>
           <Col span={12} style={{ height: '50vh' }}>
             <Line3 list={listLineTwo} />
           </Col>
@@ -61,4 +64,4 @@ class DashboardTest extends BaseWithStoreComponent {
   }
 }
 
-export default DashboardTest;
+export default DashboardLine;

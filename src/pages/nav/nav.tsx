@@ -16,10 +16,11 @@ interface IPageList {
 const pageData: IPageList[] = [
   {
     title: '图形示例',
-    pages: [
-      { title: '折线图', addr: 'dashboard/line' },
-      // { title: "t12", addr: "taddr12" }
-    ],
+    pages: [{ title: '折线图', addr: 'dashboard/line' }],
+  },
+  {
+    title: '表格示例',
+    pages: [{ title: '表格', addr: 'dashboard/table' }],
   },
   // {
   //     title: "测试",
