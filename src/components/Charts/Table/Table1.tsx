@@ -24,6 +24,7 @@ const { Column, ColumnGroup } = Table;
 export default () => {
   return (
     <Table
+      id="table1"
       pagination={{ hideOnSinglePage: true, current: 2, pageSize: 3 }}
       bordered={true}
       dataSource={data}

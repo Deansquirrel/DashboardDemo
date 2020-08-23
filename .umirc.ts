@@ -12,6 +12,19 @@ export default defineConfig({
   routes: [
     { path: '/', exact: true, redirect: '/nav' },
     { path: '/nav', exact: true, component: '@/pages/nav/nav' },
+
+    {
+      path: '/common',
+      exact: false,
+      component: '@/layouts/Common',
+      routes: [
+        {
+          path: 'demo202008230001',
+          exact: true,
+          component: '@/pages/dashboard/DashboardDemo20200823001',
+        },
+      ],
+    },
     {
       path: '/dashboard',
       exact: false,
