@@ -2,9 +2,10 @@ import { defineConfig } from 'umi';
 
 export default defineConfig({
   favicon: '/assets/favicon.ico',
-  // exportStatic: {
-  //   htmlSuffix: true,
-  // },
+  exportStatic: {
+    //   htmlSuffix: true,
+  },
+  // base: "/dashboard",
   nodeModulesTransform: {
     type: 'none',
   },
@@ -12,16 +13,20 @@ export default defineConfig({
   routes: [
     { path: '/', exact: true, redirect: '/nav' },
     { path: '/nav', exact: true, component: '@/pages/nav/nav' },
-
     {
       path: '/common',
       exact: false,
       component: '@/layouts/Common',
       routes: [
         {
-          path: 'demo202008230001',
+          path: 'demo20200823001',
           exact: true,
           component: '@/pages/dashboard/DashboardDemo20200823001',
+        },
+        {
+          path: 'demo20200824001',
+          exact: true,
+          component: '@/pages/dashboard/DashboardDemo20200824001',
         },
       ],
     },

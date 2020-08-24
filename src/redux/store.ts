@@ -7,6 +7,7 @@ import { ReducerLine2 } from '@/components/Charts/Line/Line2Data';
 import { ReducerLine4 } from '@/components/Charts/Line/Line4Data';
 
 import { ReducerTable20200823001 } from '@/components/Charts/Table/Table20200823001Data';
+import { ReducerTable20200824001 } from '@/components/Charts/Table/Table20200824001Data';
 
 const store = createStore(
   combineReducers({
@@ -14,6 +15,7 @@ const store = createStore(
     ReducerLine2,
     ReducerLine4,
     ReducerTable20200823001,
+    ReducerTable20200824001,
   }),
   // {
   //     login: {

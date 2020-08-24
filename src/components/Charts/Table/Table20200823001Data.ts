@@ -1,5 +1,4 @@
 import { RandInt } from '@/components/Common';
-import moment from 'moment';
 
 //==============================================================
 //Common

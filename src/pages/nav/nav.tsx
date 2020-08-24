@@ -16,7 +16,16 @@ interface IPageList {
 const pageData: IPageList[] = [
   {
     title: 'Demo',
-    pages: [{ title: '节日实时库存统计表', addr: 'common/demo202008230001' }],
+    pages: [
+      {
+        title: '节日实时库存统计表',
+        addr: 'common/demo20200823001',
+      },
+      {
+        title: '节日实时库存统计表2',
+        addr: 'common/demo20200824001',
+      },
+    ],
   },
   {
     title: '图形示例',
