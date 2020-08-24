@@ -1,9 +1,25 @@
 import React, { Children } from 'react';
-import { Table, Row, Col, Button, Select, Space, InputNumber } from 'antd';
-import { ITable20200824001Data } from './Table20200824001Data';
+import {
+  Table,
+  Row,
+  Col,
+  Button,
+  Select,
+  Space,
+  InputNumber,
+  Input,
+} from 'antd';
+import {
+  ITable20200824001Data,
+  ActionTable20200824001Refresh,
+} from './Table20200824001Data';
 import { RandInt } from '@/components/Common';
 import BaseComponent from '@/components/BaseComponent';
 import moment from 'moment';
+
+import store from '@/redux/store';
+
+import './Table20200824001.less';
 
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
@@ -22,7 +38,7 @@ export interface ITable20200824001Props {
 const dataQyAndMd = (): Map<number, number> => {
   let map: Map<number, number> = new Map();
   for (let i = 0; i < 100; i++) {
-    map.set(i, i % 6);
+    map.set(i, i % 4);
   }
   return map;
 };
@@ -35,13 +51,14 @@ const getMdName = (id: number): string => {
   return '门店' + id;
 };
 
+// store.dispatch(ActionTable20200824001Refresh());
+
 interface IState {
   currQyId: string;
   currHpFlId: string;
   pageSize: number;
-  // dataList: any[],
-  // qyList: number[],
-  // qyMdMap: Map<number, number[]>,
+  mdCount: number;
+  hpCount: number;
 }
 
 class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
@@ -50,9 +67,24 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
     this.state = {
       currQyId: '',
       currHpFlId: '',
-      pageSize: 16,
+      pageSize: 15,
+      mdCount: 5,
+      hpCount: 20,
     };
   }
+
+  componentDidMount() {
+    if (super.componentDidMount !== undefined) {
+      super.componentDidMount();
+    }
+    this.refreshData();
+  }
+
+  refreshData = () => {
+    store.dispatch(
+      ActionTable20200824001Refresh(this.state.hpCount, this.state.mdCount),
+    );
+  };
 
   render() {
     const { list } = this.props;
@@ -98,7 +130,12 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
     qyList.sort();
 
     const hpflId = this.state.currHpFlId;
-    let totalData: Map<number, { kc: number; dd: number }> = new Map();
+    let mdTotalData: Map<number, { kc: number; dd: number }> = new Map();
+    let hzgckcTotal: number = 0;
+    let hphjTotal: number = 0;
+    let hpddhjTotal: number = 0;
+    let whsthqslTotal: number = 0;
+    let gckfhslTotal: number = 0;
     tempData.forEach((v, k) => {
       if (v.size <= 0) {
         return;
@@ -112,23 +149,44 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
       rd['jhl'] = RandInt(1100, 2000);
       rd['zxs'] = '1*' + RandInt(500, 600);
       rd['dj'] = RandInt(150, 600) + '.00';
+      const hzgckc = RandInt(50, 300);
+      rd['hzgckc'] = hzgckc;
+      const whsthqsl = RandInt(50, 300);
+      rd['whsthqsl'] = whsthqsl;
+      whsthqslTotal = whsthqslTotal + whsthqsl;
+      const gckfhsl = RandInt(50, 300);
+      rd['gckfhsl'] = gckfhsl;
+      gckfhslTotal = gckfhslTotal + gckfhsl;
+      let hphj: number = 0;
+      let hpddhj: number = 0;
       v.forEach((v, k) => {
         rd['md' + k + 'dd'] = v.dd;
         rd['md' + k + 'kc'] = v.kc;
 
-        let data = totalData.get(k);
+        let data = mdTotalData.get(k);
         if (data === undefined) {
           data = { kc: v.kc, dd: v.dd };
         } else {
           data = { kc: data.kc + v.kc, dd: data.dd + v.dd };
         }
-        totalData.set(k, data);
+        mdTotalData.set(k, data);
+        hphj = hphj + v.kc;
+        hpddhj = hpddhj + v.dd;
+        hphjTotal = hphjTotal + v.kc;
+        hpddhjTotal = hpddhjTotal + v.dd;
       });
+
+      hphj = hphj + hzgckc;
+      rd['hphj'] = '' + hphj;
+      rd['hpddhj'] = '' + hpddhj;
+      rd['zjkc'] = '' + (hphj + gckfhsl);
+      hzgckcTotal = hzgckcTotal + hzgckc;
+      hphjTotal = hphjTotal + hzgckc;
       dataList.push(rd);
     });
 
-    const getTotalData = (mdId: number): { kc: number; dd: number } => {
-      const d = totalData.get(mdId);
+    const getMdTotalData = (mdId: number): { kc: number; dd: number } => {
+      const d = mdTotalData.get(mdId);
       if (d === undefined) {
         return { kc: 0, dd: 0 };
       } else {
@@ -182,13 +240,44 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
               <Option value="3">分类三</Option>
               <Option value="0">分类四</Option>
             </Select>
-            &nbsp;&nbsp;&nbsp;&nbsp; 每页条数
+          </Space>
+          <Space style={{ float: 'right' }}>
+            门店数量
+            <InputNumber
+              defaultValue={this.state.mdCount}
+              min={4}
+              max={100}
+              step={1}
+              style={{ width: '60px' }}
+              onChange={value => {
+                this.setState({
+                  mdCount: Number(value),
+                });
+                this.refreshData();
+              }}
+            />
+            货品数量
+            <InputNumber
+              defaultValue={this.state.hpCount}
+              min={10}
+              max={200}
+              step={1}
+              style={{ width: '60px' }}
+              onChange={value => {
+                this.setState({
+                  hpCount: Number(value),
+                });
+                this.refreshData();
+              }}
+            />
+            每页条数
             <InputNumber
               title={'Page Size'}
               defaultValue={this.state.pageSize}
-              min={10}
-              max={50}
+              min={1}
+              // max={}
               step={1}
+              style={{ width: '60px' }}
               onChange={value => {
                 if (value === undefined) {
                   return;
@@ -203,7 +292,6 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
         <Col span={24}>
           <Table
             id="table20200824001"
-            // tableLayout={"auto"}
             pagination={{
               pageSize: this.state.pageSize,
               hideOnSinglePage: true,
@@ -214,6 +302,13 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
             bordered
             scroll={{ x: 'max-content' }}
             size={'small'}
+            rowClassName={(_record, index) => {
+              if (index % 2 === 1) {
+                return 'color_row';
+              } else {
+                return '';
+              }
+            }}
             summary={pageData => {
               let totalList: string[] = [];
               {
@@ -224,18 +319,24 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
                       list.map(mdId => {
                         // totalList.push(getMdName(mdId) + ' kc');
                         // totalList.push(getMdName(mdId) + ' dd');
-                        totalList.push('' + getTotalData(mdId).kc);
-                        totalList.push('' + getTotalData(mdId).dd);
+                        totalList.push('' + getMdTotalData(mdId).kc);
+                        totalList.push('' + getMdTotalData(mdId).dd);
                       });
                     }
                   }
                 });
               }
+              totalList.push('' + hzgckcTotal);
+              totalList.push('' + hphjTotal);
+              totalList.push('' + whsthqslTotal);
+              totalList.push('' + gckfhslTotal);
+              totalList.push('' + (hphjTotal + gckfhslTotal));
+              totalList.push('' + hpddhjTotal);
 
               let i = 4;
               return (
                 <>
-                  <Table.Summary.Row>
+                  <Table.Summary.Row className={'color_row'}>
                     <Table.Summary.Cell index={0} colSpan={4}>
                       <div style={{ textAlign: 'center' }}>合计</div>
                     </Table.Summary.Cell>
@@ -253,7 +354,7 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
           >
             <ColumnGroup
               title={
-                '日期：' +
+                '日期 ' +
                 moment()
                   .locale('zh-cn')
                   .format('YYYY-MM-DD')
@@ -315,29 +416,38 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
                 );
               }
             })}
-            <Column title="合计" dataIndex="hj" key="hj" align={'center'} />
+            <Column
+              title="汉中工厂库存"
+              dataIndex="hzgckc"
+              key="hzgckc"
+              align={'center'}
+              width={80}
+            />
+            <Column title="合计" dataIndex="hphj" key="hphj" align={'center'} />
             <Column
               title="未回收提货券数量"
-              dataIndex="未回收提货券数量"
-              key="未回收提货券数量"
+              dataIndex="whsthqsl"
+              key="whsthqsl"
               align={'center'}
+              width={80}
             />
             <Column
               title="工厂可发货量"
-              dataIndex="工厂可发货量"
-              key="工厂可发货量"
+              dataIndex="gckfhsl"
+              key="gckfhsl"
               align={'center'}
+              width={80}
             />
             <Column
               title="总计库存"
-              dataIndex="总计库存"
-              key="总计库存"
+              dataIndex="zjkc"
+              key="zjkc"
               align={'center'}
             />
             <Column
-              title="订单总计"
-              dataIndex="订单总计"
-              key="订单总计"
+              title="订单合计"
+              dataIndex="hpddhj"
+              key="hpddhj"
               align={'center'}
             />
           </Table>

@@ -15,7 +15,6 @@ class DashboardDemo20200824001 extends BaseWithStoreComponent {
     if (super.componentDidMount != undefined) {
       super.componentDidMount();
     }
-    store.dispatch(ActionTable20200824001Refresh());
     //   this.refreshFunc = setInterval(RefreshData, 1000);
   }
 

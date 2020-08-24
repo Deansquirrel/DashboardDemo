@@ -28,15 +28,18 @@ export interface ITable20200824001Action {
   data: any;
 }
 
-export const ActionTable20200824001Refresh = (): ITable20200824001Action => ({
+export const ActionTable20200824001Refresh = (
+  hpCount: number,
+  mdCount: number,
+): ITable20200824001Action => ({
   type: constants.refresh,
-  data: undefined,
+  data: { hpCount: hpCount, mdCount: mdCount },
 });
 
-const getData = (): ITable20200824001Data[] => {
+const getData = (hpCount: number, mdCount: number): ITable20200824001Data[] => {
   let list: ITable20200824001Data[] = [];
-  const hpCount = RandInt(3, 3);
-  const mdCount = RandInt(2, 2);
+  // const hpCount = RandInt(30, 50);
+  // const mdCount = RandInt(6, 10);
 
   for (let i = 0; i < hpCount; i++) {
     for (let j = 0; j < mdCount; j++) {
@@ -62,7 +65,7 @@ export const ReducerTable20200824001 = (
     case constants.refresh:
       return {
         ...state,
-        list: getData(),
+        list: getData(action.data.hpCount, action.data.mdCount),
       };
     default:
       return state;

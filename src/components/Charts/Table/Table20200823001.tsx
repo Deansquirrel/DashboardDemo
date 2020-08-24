@@ -136,11 +136,6 @@ export default (props: ITable20200823001Props) => {
             totalList.push(mdName + ' dd');
           });
         });
-        // console.log("=============================")
-        // pageData.map(item => {
-        //     console.log(item)
-        // })
-        // console.log("=============================")
         let i = 4;
         return (
           <>
