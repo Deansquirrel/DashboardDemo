@@ -14,6 +14,17 @@ export default defineConfig({
     { path: '/', exact: true, redirect: '/nav' },
     { path: '/nav', exact: true, component: '@/pages/nav/nav' },
     {
+      path: '/demo',
+      exact: false,
+      routes: [
+        {
+          path: '20200824001',
+          exact: true,
+          component: '@/pages/dashboard/DashboardDemo20200824001',
+        },
+      ],
+    },
+    {
       path: '/common',
       exact: false,
       component: '@/layouts/Common',
@@ -22,11 +33,6 @@ export default defineConfig({
           path: 'demo20200823001',
           exact: true,
           component: '@/pages/dashboard/DashboardDemo20200823001',
-        },
-        {
-          path: 'demo20200824001',
-          exact: true,
-          component: '@/pages/dashboard/DashboardDemo20200824001',
         },
       ],
     },

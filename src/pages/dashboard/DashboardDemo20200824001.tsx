@@ -27,7 +27,7 @@ class DashboardDemo20200824001 extends BaseWithStoreComponent {
 
   render() {
     return (
-      <div style={{ backgroundColor: 'white' }}>
+      <div style={{ backgroundColor: 'white', padding: '16px' }}>
         <Table20200824001
           list={store.getState().ReducerTable20200824001.list}
         />

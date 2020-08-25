@@ -19,11 +19,7 @@ const pageData: IPageList[] = [
     pages: [
       {
         title: '节日实时库存统计表',
-        addr: 'common/demo20200823001',
-      },
-      {
-        title: '节日实时库存统计表2',
-        addr: 'common/demo20200824001',
+        addr: 'demo/20200824001',
       },
     ],
   },

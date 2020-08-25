@@ -77,13 +77,11 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
     if (super.componentDidMount !== undefined) {
       super.componentDidMount();
     }
-    this.refreshData();
+    this.refreshData(this.state.hpCount, this.state.mdCount);
   }
 
-  refreshData = () => {
-    store.dispatch(
-      ActionTable20200824001Refresh(this.state.hpCount, this.state.mdCount),
-    );
+  refreshData = (hpCount: number, mdCount: number) => {
+    store.dispatch(ActionTable20200824001Refresh(hpCount, mdCount));
   };
 
   render() {
@@ -250,10 +248,11 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
               step={1}
               style={{ width: '60px' }}
               onChange={value => {
+                const v = Number(value);
                 this.setState({
                   mdCount: Number(value),
                 });
-                this.refreshData();
+                this.refreshData(this.state.hpCount, Number(value));
               }}
             />
             货品数量
@@ -267,7 +266,7 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
                 this.setState({
                   hpCount: Number(value),
                 });
-                this.refreshData();
+                this.refreshData(Number(value), this.state.mdCount);
               }}
             />
             每页条数

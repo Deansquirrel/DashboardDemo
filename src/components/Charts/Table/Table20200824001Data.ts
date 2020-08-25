@@ -18,24 +18,6 @@ export interface ITable20200824001State {
   list: ITable20200824001Data[];
 }
 
-const initialState: ITable20200824001State = {
-  list: [],
-};
-//==============================================================
-//Action
-export interface ITable20200824001Action {
-  type: string;
-  data: any;
-}
-
-export const ActionTable20200824001Refresh = (
-  hpCount: number,
-  mdCount: number,
-): ITable20200824001Action => ({
-  type: constants.refresh,
-  data: { hpCount: hpCount, mdCount: mdCount },
-});
-
 const getData = (hpCount: number, mdCount: number): ITable20200824001Data[] => {
   let list: ITable20200824001Data[] = [];
   // const hpCount = RandInt(30, 50);
@@ -55,6 +37,24 @@ const getData = (hpCount: number, mdCount: number): ITable20200824001Data[] => {
   }
   return list;
 };
+
+const initialState: ITable20200824001State = {
+  list: getData(20, 5),
+};
+//==============================================================
+//Action
+export interface ITable20200824001Action {
+  type: string;
+  data: any;
+}
+
+export const ActionTable20200824001Refresh = (
+  hpCount: number,
+  mdCount: number,
+): ITable20200824001Action => ({
+  type: constants.refresh,
+  data: { hpCount: hpCount, mdCount: mdCount },
+});
 //==============================================================
 //Reduce
 export const ReducerTable20200824001 = (
