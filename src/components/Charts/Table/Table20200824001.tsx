@@ -291,6 +291,7 @@ class Table20200824001 extends BaseComponent<ITable20200824001Props, IState> {
         <Col span={24}>
           <Table
             id="table20200824001"
+            style={{ lineHeight: 0.2 }}
             pagination={{
               pageSize: this.state.pageSize,
               hideOnSinglePage: true,

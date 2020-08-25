@@ -13,7 +13,7 @@ export default defineConfig({
   //   edge: 13,
   //   ios: 7,
   // },
-  dynamicImport: {},
+  // dynamicImport: {},
   // base: "/dashboard",
   nodeModulesTransform: {
     type: 'none',
