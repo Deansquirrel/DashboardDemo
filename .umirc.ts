@@ -5,6 +5,15 @@ export default defineConfig({
   exportStatic: {
     //   htmlSuffix: true,
   },
+  // targets: {
+  //   ie: 11,
+  //   chrome: 49,
+  //   firefox: 45,
+  //   safari: 7,
+  //   edge: 13,
+  //   ios: 7,
+  // },
+  dynamicImport: {},
   // base: "/dashboard",
   nodeModulesTransform: {
     type: 'none',
